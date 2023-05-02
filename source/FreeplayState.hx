@@ -193,10 +193,10 @@ class FreeplayState extends MusicBeatState
 		add(textBG);
 
 		#if PRELOAD_ALL
-		var leText:String = "Press SPACE to listen to the Song / Press CTRL to open the Gameplay Changers Menu / Press RESET to Reset your Score and Accuracy.";
+		var leText:String = "Press CTRL to open the Gameplay Changers Menu / Press RESET to Reset your Score and Accuracy. / Press O for Options.";
 		var size:Int = 16;
 		#else
-		var leText:String = "Press CTRL to open the Gameplay Changers Menu / Press RESET to Reset your Score and Accuracy.";
+		var leText:String = "Press CTRL to open the Gameplay Changers Menu / Press RESET to Reset your Score and Accuracy. / Press O for Options.";
 		var size:Int = 18;
 		#end
 		var text:FlxText = new FlxText(textBG.x, textBG.y + 4, FlxG.width, leText, size);
@@ -310,16 +310,6 @@ class FreeplayState extends MusicBeatState
 			changeDiff(1);
 		else if (upP || downP) changeDiff();
 
-		if (controls.BACK)
-		{
-			persistentUpdate = false;
-			if(colorTween != null) {
-				colorTween.cancel();
-			}
-			FlxG.sound.play(Paths.sound('cancelMenu'));
-			MusicBeatState.switchState(new MainMenuState());
-		}
-
 		if(ctrl)
 		{
 			persistentUpdate = false;
@@ -391,6 +381,11 @@ class FreeplayState extends MusicBeatState
 			persistentUpdate = false;
 			openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
 			FlxG.sound.play(Paths.sound('scrollMenu'));
+		}
+		else if(FlxG.keys.justPressed.O)
+		{
+			persistentUpdate = false;
+			MusicBeatState.switchState(new options.OptionsState());
 		}
 		super.update(elapsed);
 	}
